@@ -1,1 +1,0 @@
-# keanu-ellwood-photography
