@@ -31,10 +31,10 @@ export default function Home() {
                 <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png"/>
             </Head>
             <main className="text-red-500">
-                <p>Placeholder for Main</p>
+                <p>Placeholder for MAIN  section</p>
             </main>
             <footer>
-                <p>Placeholder for footer</p>
+                <p>Placeholder for FOOTER section</p>
             </footer>
         </div>
     )
