@@ -30,10 +30,13 @@ export default function Home() {
     React.useEffect(() => {
         // @ts-ignore
         set_document(document)
+        setTimeout(function() {
+            window.scrollTo(0, 0);
+        }, 1);
     }, [])
 
     function goToSection(elementId: string) {
-        if (typeof window !== "undefined") {
+        if (typeof window !== "undefined" && elementId.length > 0) {
             const section = document.getElementById(elementId)
             section?.scrollIntoView({ behavior: 'smooth' })
         }
@@ -76,9 +79,6 @@ export default function Home() {
     // }
     // switchBanner()
 
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
     return (
         <div className="flex flex-col min-h-screen justify-between">
             <Head>
@@ -173,13 +173,13 @@ export default function Home() {
                          style={{ backgroundImage: `url('${cloud.src}')` }}>
                     <div
                         className="flex md:flex-row items-center lg:py-16 py-8 justify-center container m-auto flex-col">
-                        <div className="flex flex-col flex-wrap font-body text-black self-stretch">
+                        <div className="flex flex-col flex-wrap font-body text-white self-stretch">
                             <div style={{ textAlign: 'center' }}>
                                 <div className="w-full">
                                     <p className="font-body font-meta italic">get in touch with me</p>
                                     <h3 className="font-header text-5xl">Contact Me</h3>
                                 </div>
-                                <div className="w-full">
+                                <div className="w-full text-lg">
                                     <div className="font-body italic flex flex-col p-5 about-me">
                                         <p>Before we both get excited and in order to give you a quote, I need to know
                                             more
@@ -201,23 +201,23 @@ export default function Home() {
                                     <div className="flex flex-wrap -mx-3 mb-6">
                                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                             <label
-                                                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                                className="block uppercase tracking-wide text-zinc-200 text-xs font-bold mb-2"
                                                 htmlFor="name">
                                                 First Name
                                             </label>
                                             <input
-                                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                                className="appearance-none block w-full bg-white text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                                 id="name" type="text" placeholder="Jane" required/>
-                                            <p className="text-red-500 text-xs italic">Please fill out this field.</p>
+                                            <p className="text-red-500 text-xs italic" hidden={true}>Please fill out this field.</p>
                                         </div>
                                         <div className="w-full md:w-1/2 px-3">
                                             <label
-                                                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                                className="block uppercase tracking-wide text-zinc-200 text-xs font-bold mb-2"
                                                 htmlFor="surname">
                                                 Surname
                                             </label>
                                             <input
-                                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                className="appearance-none block w-full bg-white text-black border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                                 id="surname" type="text" placeholder="Doe"/>
                                         </div>
                                     </div>
@@ -225,23 +225,23 @@ export default function Home() {
                                     <div className="flex flex-wrap -mx-3 mb-6">
                                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                             <label
-                                                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                                className="block uppercase tracking-wide text-zinc-200 text-xs font-bold mb-2"
                                                 htmlFor="email">
                                                 E-mail
                                             </label>
                                             <input
-                                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                className="appearance-none block w-full bg-white text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                                 id="email" type="email" required/>
-                                            <p className="text-gray-600 text-xs italic">Please enter a valid email.</p>
+                                            <p className="text-red-500 text-xs italic" hidden={true}>Please enter a valid email.</p>
                                         </div>
                                         <div className="w-full md:w-1/2 px-3">
                                             <div className="mb-3">
                                                 <label
-                                                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                                    className="block uppercase tracking-wide text-zinc-200 text-xs font-bold mb-2">
                                                     Your Mobile Number
                                                 </label>
                                                 <PhoneInput
-                                                    inputClass="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                    inputClass="appearance-none block w-full bg-white text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                                     country={'za'}
                                                     value={_phoneValue}
                                                     onChange={() => set_phoneValue}
@@ -250,7 +250,7 @@ export default function Home() {
                                                     inputStyle={{ height: '46px', width: '100%' }}
                                                 />
                                             </div>
-                                            <p className="text-gray-600 text-xs italic">Please enter a valid mobile
+                                            <p className="text-red-500 text-xs italic" hidden={true}>Please enter a valid mobile
                                                 number.</p>
                                         </div>
                                     </div>
@@ -258,24 +258,24 @@ export default function Home() {
                                     <div className="flex flex-wrap -mx-3 mb-6">
                                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                             <label
-                                                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                                className="block uppercase tracking-wide text-zinc-200 text-xs font-bold mb-2"
                                                 htmlFor="date">
                                                 Shoot Date
                                             </label>
                                             <input
-                                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                className="appearance-none block w-full bg-white text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                                 id="date" type="date" required/>
-                                            <p className="text-gray-600 text-xs italic">Please provide the date you want
+                                            <p className="text-red-500 text-xs italic" hidden={true}>Please provide the date you want
                                                 to schedule a shoot.</p>
                                         </div>
                                         <div className="w-full md:w-1/2 px-3">
                                             <label
-                                                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                                className="block uppercase tracking-wide text-zinc-200 text-xs font-bold mb-2"
                                                 htmlFor="venue">
                                                 Have a venue in mind?
                                             </label>
                                             <input
-                                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                className="appearance-none block w-full bg-white text-black border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                                 id="venue" type="text"/>
                                         </div>
                                     </div>
@@ -283,19 +283,19 @@ export default function Home() {
                                     <div className="flex flex-wrap -mx-3 mb-6">
                                         <div className="w-full px-3">
                                             <label
-                                                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                                className="block uppercase tracking-wide text-zinc-200 text-xs font-bold mb-2"
                                                 htmlFor="message">
                                                 Message
                                             </label>
                                             <textarea
-                                                className=" no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-48 resize-none"
+                                                className=" no-resize appearance-none block w-full bg-white text-black border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-48 resize-none"
                                                 id="message" required></textarea>
                                         </div>
                                     </div>
                                     <div className="md:flex md:items-center">
                                         <div className="md:w-1/3">
                                             <button
-                                                className="font-meta shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                                                className="font-meta inline-block px-7 py-3 mb-1 border-2 border-gray-200 text-gray-200 font-medium text-sm leading-snug uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
                                                 type="submit">
                                                 Send
                                             </button>
