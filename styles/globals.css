@@ -75,6 +75,10 @@
     --card-rgb: 100, 100, 100;
     --card-border-rgb: 200, 200, 200;
   }
+
+  html {
+    color-scheme: dark;
+  }
 }
 
 * {
@@ -104,8 +108,35 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+img {
+  pointer-events: none;
 }
+
+.about-me p {
+  padding: 10px 0;
+}
+
+/*.fade-in-out {*/
+/*  animation: imageAnimation 5s linear infinite 0s;*/
+/*}*/
+
+/*@keyframes imageAnimation {*/
+/*  0% {*/
+/*    opacity: 0;*/
+/*    animation-timing-function: ease-in;*/
+/*  }*/
+/*  8% {*/
+/*    opacity: 1;*/
+/*    transform: scale(1.05);*/
+/*    animation-timing-function: ease-out;*/
+/*  }*/
+/*  17% {*/
+/*    opacity: 1;*/
+/*    transform: scale(1.1) rotate(3deg);*/
+/*  }*/
+/*  25% {*/
+/*    opacity: 0;*/
+/*    transform: scale(1.1) rotate(3deg);*/
+/*  }*/
+/*  100% { opacity: 0 }*/
+/*}*/
