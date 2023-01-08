@@ -1,40 +1,64 @@
 import Head from 'next/head'
-import { Inter } from '@next/font/google'
-import about from "../public/images/about.jpg";
-import cloud from "../public/images/cloud.jpg";
-import banner1 from "../public/images/banner-1.jpg";
-import banner2 from "../public/images/banner-2.jpg";
+import about from "../public/images/about.jpg"
+import cloud from "../public/images/cloud.jpg"
+import banner1 from "../public/images/banner-1.jpg"
+import banner2 from "../public/images/banner-2.jpg"
 import logo from "../public/logos/logo_white (2).png"
-import Image from "next/image";
-import { BsGithub, BsInstagram, BsLinkedin } from 'react-icons/bs';
-import React from 'react';
-import Link from "next/link";
+import Image from "next/image"
+import { BsGithub, BsInstagram, BsLinkedin } from 'react-icons/bs'
+import React from 'react'
+import Link from "next/link"
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+import { sendContactForm } from "./api/contact";
 
-const inter = Inter({ subsets: ['latin'] })
+const _phoneProps = {
+    name: 'phone',
+    required: true,
+    autoFocus: true
+}
+
 const bannerImages = [banner1, banner2]
 const backupImage = 'https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
 
 export default function Home() {
     const [_document, set_document] = React.useState(null)
+    const [_phoneValue, set_phoneValue] = React.useState()
+    const [message, setMessage] = React.useState("");
+    const formRef = React.useRef<HTMLFormElement>(null)
 
     React.useEffect(() => {
         // @ts-ignore
-        set_document(document);
+        set_document(document)
     }, [])
 
-    function goToContactMe() {
+    function goToSection(elementId: string) {
         if (typeof window !== "undefined") {
-            const contactSection = document.getElementById('contact');
-            contactSection?.scrollIntoView({ behavior: 'smooth' });
+            const section = document.getElementById(elementId)
+            section?.scrollIntoView({ behavior: 'smooth' })
         }
     }
 
-    function goToSection(elementId: string) {
-        console.log(elementId)
-        if (typeof window !== "undefined") {
-            console.log(elementId)
-            const section = document.getElementById(elementId);
-            section?.scrollIntoView({ behavior: 'smooth' });
+    async function submitContact(e: any) {
+        e.preventDefault();
+        console.log(e);
+        const res = await sendContactForm({
+            name: e.target[0].value,
+            surname: e.target[1].value,
+            email: e.target[2].value,
+            mobileNumber: e.target[3].value,
+            date: e.target[4].value,
+            venue: e.target[5].value,
+            message: e.target[6].value,
+        });
+        if (res == 0) {
+            setMessage("Thank you for your valuable comment!");
+            if (typeof window !== "undefined" && formRef) {
+                // @ts-ignore
+                formRef.current.reset();
+            }
+        } else {
+            setMessage("Something went wrong! Please try again");
         }
     }
 
@@ -43,16 +67,18 @@ export default function Home() {
     //         let timer = 0
     //         let index = 1
     //         const bannerElement = document.getElementById('banner')
-    //
     //         setInterval(function() {
     //             if (bannerElement) bannerElement.style.backgroundImage = bannerElement ? `url('${bannerImages[index].src}')` : `url('${backupImage}')`
-    //             index = (index + 1) % bannerImages.length;
+    //             index = (index + 1) % bannerImages.length
     //             timer = timer + 2000
-    //         }, 5000);
+    //         }, 5000)
     //     }
     // }
-    // switchBanner();
+    // switchBanner()
 
+    // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     return (
         <div className="flex flex-col min-h-screen justify-between">
             <Head>
@@ -169,32 +195,35 @@ export default function Home() {
                                 </div>
                             </div>
                             <div className="w-full m-auto xl:px-14 p-5">
-                                <form className="w-full">
+                                <form className="w-full"
+                                      ref={formRef}
+                                      onSubmit={submitContact}>
                                     <div className="flex flex-wrap -mx-3 mb-6">
                                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                             <label
                                                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                                htmlFor="first-name">
+                                                htmlFor="name">
                                                 First Name
                                             </label>
                                             <input
                                                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                                id="first-name" type="text" placeholder="Jane"/>
+                                                id="name" type="text" placeholder="Jane" required/>
                                             <p className="text-red-500 text-xs italic">Please fill out this field.</p>
                                         </div>
                                         <div className="w-full md:w-1/2 px-3">
                                             <label
                                                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                                htmlFor="last-name">
-                                                Last Name
+                                                htmlFor="surname">
+                                                Surname
                                             </label>
                                             <input
                                                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                                id="last-name" type="text" placeholder="Doe"/>
+                                                id="surname" type="text" placeholder="Doe"/>
                                         </div>
                                     </div>
+
                                     <div className="flex flex-wrap -mx-3 mb-6">
-                                        <div className="w-full px-3">
+                                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                             <label
                                                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                                 htmlFor="email">
@@ -202,10 +231,55 @@ export default function Home() {
                                             </label>
                                             <input
                                                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                                id="email" type="email"/>
+                                                id="email" type="email" required/>
                                             <p className="text-gray-600 text-xs italic">Please enter a valid email.</p>
                                         </div>
+                                        <div className="w-full md:w-1/2 px-3">
+                                            <div className="mb-3">
+                                                <label
+                                                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                                                    Your Mobile Number
+                                                </label>
+                                                <PhoneInput
+                                                    inputClass="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                    country={'za'}
+                                                    value={_phoneValue}
+                                                    onChange={() => set_phoneValue}
+                                                    specialLabel="Your Mobile Number"
+                                                    inputProps={_phoneProps}
+                                                    inputStyle={{ height: '46px', width: '100%' }}
+                                                />
+                                            </div>
+                                            <p className="text-gray-600 text-xs italic">Please enter a valid mobile
+                                                number.</p>
+                                        </div>
                                     </div>
+
+                                    <div className="flex flex-wrap -mx-3 mb-6">
+                                        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                            <label
+                                                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                                htmlFor="date">
+                                                Shoot Date
+                                            </label>
+                                            <input
+                                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                id="date" type="date" required/>
+                                            <p className="text-gray-600 text-xs italic">Please provide the date you want
+                                                to schedule a shoot.</p>
+                                        </div>
+                                        <div className="w-full md:w-1/2 px-3">
+                                            <label
+                                                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                                htmlFor="venue">
+                                                Have a venue in mind?
+                                            </label>
+                                            <input
+                                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                                id="venue" type="text"/>
+                                        </div>
+                                    </div>
+
                                     <div className="flex flex-wrap -mx-3 mb-6">
                                         <div className="w-full px-3">
                                             <label
@@ -215,14 +289,14 @@ export default function Home() {
                                             </label>
                                             <textarea
                                                 className=" no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-48 resize-none"
-                                                id="message"></textarea>
+                                                id="message" required></textarea>
                                         </div>
                                     </div>
                                     <div className="md:flex md:items-center">
                                         <div className="md:w-1/3">
                                             <button
                                                 className="font-meta shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                                                type="button">
+                                                type="submit">
                                                 Send
                                             </button>
                                         </div>
@@ -304,3 +378,9 @@ export default function Home() {
         </div>
     )
 }
+
+// isValid={(inputNumber: string, _country, countries) => {
+//     return countries.some((country) => {
+//         return startsWith(inputNumber, country.dialCode) || startsWith(country.dialCode, inputNumber);
+//     });
+// }}
